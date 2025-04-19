@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aviator Game Prediction Tool</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            text-align: center;
+            background-color: #f4f4f4;
+        }
+
+        h1 {
+            color: #333;
+        }
+
+        input {
+            padding: 10px;
+            font-size: 16px;
+            margin: 10px 0;
+            width: 80%;
+            max-width: 300px;
+        }
+
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 5px;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        #predictionResult {
+            margin-top: 20px;
+            font-size: 18px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Aviator Game Prediction Tool</h1>
+    <label for="crashPoints">Enter the last 5 crash points (comma separated):</label><br>
+    <input type="text" id="crashPoints" placeholder="e.g. 1.2, 2.5, 1.8, 3.0, 2.2">
+    <br>
+    <button onclick="predict()">Predict Next Crash Point</button>
+    <h3 id="predictionResult"></h3>
+
+    <script>
+        function predict() {
+            const input = document.getElementById('crashPoints').value;
+            const crashPoints = input.split(',').map(point => parseFloat(point.trim()));
+            
+            if (crashPoints.length !== 5 || crashPoints.some(isNaN)) {
+                alert('Please enter exactly 5 valid crash points.');
+                return;
+            }
+
+            const prediction = predictAviatorGame(crashPoints);
+            document.getElementById('predictionResult').innerText = prediction;
+        }
+
+        function predictAviatorGame(crashPoints) {
+            // Calculate the average of the last 5 crash points
+            const sum = crashPoints.reduce((acc, point) => acc + point, 0);
+            const averageCrashPoint = sum / crashPoints.length;
+
+            // Simple prediction based on the average crash point
+            if (averageCrashPoint < 2) {
+                return 'High chance of a crash point > 2x';
+            } else {
+                return 'Low chance of a crash point > 2x';
+            }
+        }
+    </script>
+
+</body>
+      </html>
+      
